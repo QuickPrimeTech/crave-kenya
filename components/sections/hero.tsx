@@ -2,6 +2,7 @@
 
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
+import { siteConfig } from '@/lib/config';
 
 export function Hero() {
   return (
@@ -9,13 +10,13 @@ export function Hero() {
       {/* Background image */}
       <div className="absolute inset-0 z-0">
         <Image
-          src="/hero-bg.jpg"
+          src="/restaurant-interior-1.jpg"
           alt="Crave Kenya Kilimani"
           fill
           className="object-cover"
           priority
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-background/90 via-background/70 to-background/50" />
+        <div className="absolute inset-0 bg-gradient-to-r from-background/95 via-background/75 to-background/60" />
       </div>
 
       {/* Content */}
@@ -44,7 +45,9 @@ export function Hero() {
           </div>
 
           <p className="mt-12 text-sm text-muted-foreground">
-            📍 Kilimani, Nairobi | 📞 +254 XXX XXX XXX
+            <span>{siteConfig.restaurant.location}</span>
+            {' | '}
+            <span>{siteConfig.restaurant.phone}</span>
           </p>
         </div>
       </div>

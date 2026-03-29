@@ -1,5 +1,7 @@
 'use client';
 
+import { siteConfig } from '@/lib/config';
+
 export function About() {
   return (
     <section id="about" className="py-20 bg-secondary">
@@ -7,13 +9,13 @@ export function About() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
           {/* Left Content */}
           <div>
-            <p className="text-primary text-sm font-semibold mb-4 tracking-widest">ABOUT CRAVE</p>
+            <p className="text-primary text-sm font-semibold mb-4 tracking-widest">ABOUT {siteConfig.name}</p>
             <h2 className="text-5xl font-serif font-bold text-foreground mb-6">
               A Journey of Taste
             </h2>
             
             <p className="text-muted-foreground mb-6 leading-relaxed text-lg">
-              Crave Kenya Kilimani is Nairobi&apos;s premier fine dining destination. We believe that exceptional food is an art form, crafted with passion, precision, and the finest ingredients.
+              {siteConfig.restaurant.name} is Nairobi&apos;s premier fine dining destination. We believe that exceptional food is an art form, crafted with passion, precision, and the finest ingredients.
             </p>
 
             <p className="text-muted-foreground mb-8 leading-relaxed text-lg">
