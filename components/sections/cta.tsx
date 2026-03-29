@@ -2,6 +2,7 @@
 
 import { Button } from '@/components/ui/button';
 import { ArrowRight } from 'lucide-react';
+import { siteConfig } from '@/lib/config';
 
 export function CTA() {
   return (
@@ -11,10 +12,10 @@ export function CTA() {
           <div>
             <p className="text-primary text-sm font-semibold mb-4 tracking-widest">READY TO JOIN US?</p>
             <h2 className="text-5xl md:text-6xl font-serif font-bold text-foreground mb-6">
-              Reserve Your Table Today
+              {siteConfig.cta.primary} Today
             </h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-8">
-              Don&apos;t miss out on an exceptional dining experience. Book your reservation now and let us create magic on your palate.
+              Don&apos;t miss out on an exceptional dining experience. Book your {siteConfig.cta.primary.toLowerCase()} now and let us create magic on your palate.
             </p>
           </div>
 
@@ -27,7 +28,7 @@ export function CTA() {
             
             <div className="text-center">
               <p className="text-sm text-muted-foreground mb-1">Call Us</p>
-              <p className="text-lg font-semibold text-primary">+254 XXX XXX XXX</p>
+              <p className="text-lg font-semibold text-primary">{siteConfig.restaurant.phone}</p>
             </div>
           </div>
 
@@ -36,17 +37,17 @@ export function CTA() {
             <div>
               <p className="text-sm text-muted-foreground mb-2">Opening Hours</p>
               <p className="font-semibold text-foreground">Mon - Sun</p>
-              <p className="text-primary">11 AM - 11 PM</p>
+              <p className="text-primary">{siteConfig.restaurant.hours.weekday}</p>
             </div>
             <div>
               <p className="text-sm text-muted-foreground mb-2">Location</p>
-              <p className="font-semibold text-foreground">Kilimani</p>
+              <p className="font-semibold text-foreground">{siteConfig.restaurant.location}</p>
               <p className="text-primary">Nairobi, Kenya</p>
             </div>
             <div>
               <p className="text-sm text-muted-foreground mb-2">Email</p>
               <p className="font-semibold text-foreground">For Reservations</p>
-              <p className="text-primary">book@cravekenya.com</p>
+              <p className="text-primary">{siteConfig.restaurant.email}</p>
             </div>
           </div>
         </div>
