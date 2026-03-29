@@ -9,65 +9,64 @@ import useEmblaCarousel from 'embla-carousel-react';
 const posts = [
   {
     id: 1,
-    emoji: '🍽️',
+    image: '/dishes/grilled-salmon.jpg',
     likes: '2,345',
     handle: '@crave_kenya',
-    caption: 'Culinary excellence',
+    caption: 'Grilled Salmon - Culinary Excellence',
     views: '12.5K',
-    gradient: 'from-purple-600 via-purple-400 to-pink-500',
-    avatar: '👨‍🍳',
   },
   {
     id: 2,
-    emoji: '🥩',
+    image: '/dishes/beef-steak.jpg',
     likes: '3,821',
     handle: '@crave_kenya',
-    caption: 'Prime cuts, perfect sear',
+    caption: 'Prime Beef Steak - Perfectly Seared',
     views: '18.9K',
-    gradient: 'from-cyan-500 via-blue-500 to-purple-600',
-    avatar: '👨‍🍳',
   },
   {
     id: 3,
-    emoji: '🍤',
+    image: '/dishes/pasta-seafood.jpg',
     likes: '2,156',
     handle: '@crave_kenya',
-    caption: 'Fresh seafood daily',
+    caption: 'Seafood Pasta - Fresh Daily',
     views: '9.3K',
-    gradient: 'from-rose-500 via-pink-500 to-red-500',
-    avatar: '👨‍🍳',
   },
   {
     id: 4,
-    emoji: '🌿',
+    image: '/dishes/chicken-dish.jpg',
     likes: '1,923',
     handle: '@crave_kenya',
-    caption: 'Garden to table',
+    caption: 'Herb-Crusted Chicken - Garden Fresh',
     views: '7.8K',
-    gradient: 'from-green-500 via-emerald-500 to-teal-600',
-    avatar: '👨‍🍳',
   },
   {
     id: 5,
-    emoji: '✨',
+    image: '/dishes/vegetarian-bowl.jpg',
     likes: '4,102',
     handle: '@crave_kenya',
-    caption: 'Moments of pure indulgence',
+    caption: 'Vegetarian Bowl - Moments of Indulgence',
     views: '22.1K',
-    gradient: 'from-amber-400 via-yellow-400 to-orange-500',
-    avatar: '👨‍🍳',
   },
 ];
 
 export function Instagram() {
-  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true });
+  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, dragFree: true });
   const [selectedIndex, setSelectedIndex] = useState(0);
+  const [canScrollPrev, setCanScrollPrev] = useState(false);
+  const [canScrollNext, setCanScrollNext] = useState(false);
 
   useEffect(() => {
     if (!emblaApi) return;
-    emblaApi.on('select', () => {
+
+    const onSelect = () => {
       setSelectedIndex(emblaApi.selectedIndex);
-    });
+      setCanScrollPrev(emblaApi.canScrollPrev());
+      setCanScrollNext(emblaApi.canScrollNext());
+    };
+
+    emblaApi.on('select', onSelect);
+    emblaApi.on('reInit', onSelect);
+    onSelect();
   }, [emblaApi]);
 
   const scroll = (direction: 'left' | 'right') => {
@@ -100,34 +99,37 @@ export function Instagram() {
       blur = 0;
       opacity = 1;
       zIndex = 10;
-    } else if (normalizedOffset === 1 || normalizedOffset === -4) {
+    } else if (normalizedOffset === 1) {
       translateX = 145;
       rotate = 42;
       scale = 0.78;
       blur = 2;
       opacity = 0.7;
       zIndex = 7;
-    } else if (normalizedOffset === -1 || normalizedOffset === 4) {
+    } else if (normalizedOffset === -1) {
       translateX = -145;
       rotate = -42;
       scale = 0.78;
       blur = 2;
       opacity = 0.7;
       zIndex = 7;
-    } else if (normalizedOffset === 2 || normalizedOffset === -3) {
+    } else if (normalizedOffset === 2) {
       translateX = 240;
       rotate = 48;
       scale = 0.6;
       blur = 4;
       opacity = 0.4;
       zIndex = 4;
-    } else if (normalizedOffset === -2 || normalizedOffset === 3) {
+    } else if (normalizedOffset === -2) {
       translateX = -240;
       rotate = -48;
       scale = 0.6;
       blur = 4;
       opacity = 0.4;
       zIndex = 4;
+    } else {
+      opacity = 0;
+      zIndex = 0;
     }
 
     return {
@@ -163,74 +165,69 @@ export function Instagram() {
 
         {/* Carousel */}
         <div className="flex justify-center mb-12">
-          <div className="relative w-full max-w-3xl h-[420px]">
-            {/* Invisible embla carousel for swipe/drag */}
-            <div ref={emblaRef} className="opacity-0 absolute inset-0">
-              <div className="flex">
-                {posts.map(() => (
-                  <div key={Math.random()} className="flex-[0_0_100%]" />
-                ))}
-              </div>
-            </div>
-
-            {/* Card container */}
-            <div className="relative w-full h-full flex items-center justify-center">
+          <div className="relative w-full max-w-3xl h-[420px]" ref={emblaRef}>
+            <div className="flex h-full items-center justify-center">
               {posts.map((post, index) => (
                 <div
                   key={post.id}
-                  className="absolute w-[210px] h-[360px] rounded-2xl transition-all duration-500"
-                  style={{
-                    ...getCardStyle(index),
-                    transitionTimingFunction: 'cubic-bezier(0.34,1.56,0.64,1)',
-                  }}
+                  className="flex-shrink-0 w-[210px] h-[360px] flex items-center justify-center"
                 >
-                  {/* Card gradient background */}
                   <div
-                    className={`w-full h-full rounded-2xl bg-gradient-to-br ${post.gradient} relative overflow-hidden`}
+                    className="absolute w-[210px] h-[360px] rounded-2xl transition-all duration-500"
+                    style={{
+                      ...getCardStyle(index),
+                      transitionTimingFunction: 'cubic-bezier(0.34,1.56,0.64,1)',
+                    }}
                   >
-                    {/* Shine overlay (center card only) */}
-                    {selectedIndex === index && (
-                      <div
-                        className="absolute inset-0 rounded-2xl bg-gradient-to-b from-white/10 to-transparent pointer-events-none"
-                        style={{
-                          boxShadow: '0 32px 80px rgba(0, 0, 0, 0.3)',
-                        }}
+                    {/* Card with image background */}
+                    <div className="w-full h-full rounded-2xl relative overflow-hidden">
+                      <img
+                        src={post.image}
+                        alt={post.caption}
+                        className="w-full h-full object-cover"
                       />
-                    )}
+                      {/* Overlay with shine effect */}
+                      {selectedIndex === index && (
+                        <div
+                          className="absolute inset-0 rounded-2xl bg-gradient-to-b from-white/10 to-transparent pointer-events-none"
+                          style={{
+                            boxShadow: '0 32px 80px rgba(0, 0, 0, 0.3)',
+                          }}
+                        />
+                      )}
 
-                    {/* Top-left: like count */}
-                    <div className="absolute top-3 left-3 bg-black/40 backdrop-blur-sm rounded-full px-3 py-1.5 flex items-center gap-1">
-                      <Heart size={14} className="text-red-400 fill-red-400" />
-                      <span className="text-xs font-semibold text-white">{post.likes}</span>
-                    </div>
+                      {/* Dark overlay for text readability */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent rounded-2xl" />
 
-                    {/* Top-right: Instagram logo */}
-                    <div className="absolute top-3 right-3 bg-black/40 backdrop-blur-sm rounded-full p-1.5">
-                      <svg
-                        className="w-4 h-4 text-white"
-                        fill="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.057-1.645.069-4.849.069-3.204 0-3.584-.012-4.849-.069-3.259-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zM5.838 12c0-3.403 2.759-6.162 6.162-6.162 3.403 0 6.162 2.759 6.162 6.162 0 3.403-2.759 6.162-6.162 6.162-3.403 0-6.162-2.759-6.162-6.162zm2.889 0c0 1.821 1.472 3.293 3.273 3.293 1.821 0 3.293-1.472 3.293-3.293 0-1.821-1.472-3.293-3.293-3.293-1.801 0-3.273 1.472-3.273 3.293zm9.576-6.422c0 .795.645 1.44 1.44 1.44.795 0 1.44-.645 1.44-1.44-.001-.795-.645-1.44-1.44-1.44-.795 0-1.44.645-1.44 1.44z" />
-                      </svg>
-                    </div>
+                      {/* Top-left: like count */}
+                      <div className="absolute top-3 left-3 bg-black/40 backdrop-blur-sm rounded-full px-3 py-1.5 flex items-center gap-1">
+                        <Heart size={14} className="text-red-400 fill-red-400" />
+                        <span className="text-xs font-semibold text-white">{post.likes}</span>
+                      </div>
 
-                    {/* Center emoji */}
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <div className="text-6xl">{post.emoji}</div>
-                    </div>
+                      {/* Top-right: Instagram logo */}
+                      <div className="absolute top-3 right-3 bg-black/40 backdrop-blur-sm rounded-full p-1.5">
+                        <svg
+                          className="w-4 h-4 text-white"
+                          fill="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.057-1.645.069-4.849.069-3.204 0-3.584-.012-4.849-.069-3.259-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zM5.838 12c0-3.403 2.759-6.162 6.162-6.162 3.403 0 6.162 2.759 6.162 6.162 0 3.403-2.759 6.162-6.162 6.162-3.403 0-6.162-2.759-6.162-6.162zm2.889 0c0 1.821 1.472 3.293 3.273 3.293 1.821 0 3.293-1.472 3.293-3.293 0-1.821-1.472-3.293-3.293-3.293-1.801 0-3.273 1.472-3.273 3.293zm9.576-6.422c0 .795.645 1.44 1.44 1.44.795 0 1.44-.645 1.44-1.44-.001-.795-.645-1.44-1.44-1.44-.795 0-1.44.645-1.44 1.44z" />
+                        </svg>
+                      </div>
 
-                    {/* Bottom gradient overlay with caption */}
-                    <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-3 h-24 flex flex-col justify-end">
-                      <p className="text-xs text-white/90 leading-tight mb-2">{post.caption}</p>
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-2">
-                          <div className="w-6 h-6 rounded-full bg-white/20 flex items-center justify-center text-xs">
-                            {post.avatar}
+                      {/* Bottom gradient overlay with caption */}
+                      <div className="absolute bottom-0 left-0 right-0 p-3 h-24 flex flex-col justify-end">
+                        <p className="text-xs text-white/90 leading-tight mb-2 line-clamp-2">{post.caption}</p>
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-2">
+                            <div className="w-6 h-6 rounded-full bg-white/20 flex items-center justify-center text-xs">
+                              📸
+                            </div>
+                            <span className="text-xs font-semibold text-white">{post.handle}</span>
                           </div>
-                          <span className="text-xs font-semibold text-white">{post.handle}</span>
+                          <span className="text-xs text-white/70">{post.views}</span>
                         </div>
-                        <span className="text-xs text-white/70">{post.views}</span>
                       </div>
                     </div>
                   </div>
@@ -244,7 +241,8 @@ export function Instagram() {
         <div className="flex items-center justify-center gap-6 mb-12">
           <button
             onClick={() => scroll('left')}
-            className="p-2 bg-secondary border border-border text-secondary-foreground hover:bg-accent transition-colors rounded-lg"
+            disabled={!canScrollPrev}
+            className="p-2 bg-secondary border border-border text-secondary-foreground hover:bg-accent disabled:opacity-50 disabled:cursor-not-allowed transition-colors rounded-lg"
             aria-label="Previous slide"
           >
             <ChevronLeft size={20} />
@@ -267,7 +265,8 @@ export function Instagram() {
 
           <button
             onClick={() => scroll('right')}
-            className="p-2 bg-secondary border border-border text-secondary-foreground hover:bg-accent transition-colors rounded-lg"
+            disabled={!canScrollNext}
+            className="p-2 bg-secondary border border-border text-secondary-foreground hover:bg-accent disabled:opacity-50 disabled:cursor-not-allowed transition-colors rounded-lg"
             aria-label="Next slide"
           >
             <ChevronRight size={20} />

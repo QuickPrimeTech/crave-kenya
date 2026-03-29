@@ -1,7 +1,7 @@
 'use client';
 
 import { Card } from '@/components/ui/card';
-import { Dialog, DialogContent, DialogHeader } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Star, ChevronLeft, ChevronRight, CheckCircle } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import useEmblaCarousel from 'embla-carousel-react';
@@ -34,6 +34,8 @@ function ReviewDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-2xl bg-card border-border">
         <DialogHeader>
+          <DialogTitle className="sr-only">Guest Review from {testimonial.name}</DialogTitle>
+          <DialogDescription className="sr-only">Full review and details from {testimonial.name}</DialogDescription>
           <div className="flex items-start justify-between mb-6">
             <div className="flex items-center gap-4">
               <div className="w-16 h-16 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center text-3xl">
