@@ -65,8 +65,8 @@ export function Header() {
                   <Menu className="text-foreground" size={20} />
                 </Button>
               </SheetTrigger>
-              <SheetContent side="right" className="w-72 bg-card border-border">
-                <div className="flex flex-col gap-6 mt-8">
+              <SheetContent side="right" className="w-72 bg-card border-border p-6">
+                <div className="flex flex-col gap-6">
                   <div>
                     <h3 className="text-lg font-bold text-foreground mb-4">{siteConfig.name}</h3>
                     <nav className="flex flex-col gap-4">
