@@ -7,6 +7,7 @@ import { useTheme } from "next-themes";
 import { Menu, Sun, Moon } from "lucide-react";
 import { siteConfig } from "@/lib/config";
 import { useEffect, useState } from "react";
+import { Logo } from "@/components/logo";
 
 export function Header() {
   const { theme, setTheme } = useTheme();
@@ -21,7 +22,8 @@ export function Header() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <h1 className="text-3xl font-bold text-primary">
+            <Logo size={32} />
+            <h1 className="font-serif text-3xl font-bold text-primary">
               {siteConfig.name}
             </h1>
             <span className="text-xs text-muted-foreground">

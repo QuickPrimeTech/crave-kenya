@@ -13,6 +13,7 @@ import {
 import { FaTiktok } from "react-icons/fa";
 import { siteConfig } from "@/lib/config";
 import { cn } from "@/lib/utils";
+import { Logo } from "./logo";
 
 interface SocialLink {
   name: string;
@@ -70,7 +71,8 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8 mb-16">
           {/* Brand Column */}
           <div className="lg:col-span-1">
-            <Link href="/" className="inline-block mb-6">
+            <Link href="/" className="flex items-center gap-2 mb-6">
+              <Logo size={32} />
               <h3 className="text-3xl font-serif font-bold text-primary tracking-tight">
                 {siteConfig.name}
               </h3>
