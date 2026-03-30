@@ -8,6 +8,11 @@ const nextConfig: NextConfig = {
         hostname: "res.cloudinary.com",
         pathname: "/quick-prime-tech/**", // Allow all paths from Cloudinary
       },
+      {
+        protocol: "https",
+        hostname: "cravekenya.com",
+        pathname: "/images/**",
+      },
     ],
   },
 };

@@ -1,66 +1,47 @@
-'use client';
+"use client";
 
-import { siteConfig } from '@/lib/config';
+import { siteConfig } from "@/lib/config";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import { Image } from "@ui/image";
 
 export function About() {
   return (
-    <section id="about" className="py-20 bg-secondary">
+    <section id="about" className="py-20 bg-secondary rounded-xl">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-          {/* Left Content */}
-          <div>
-            <p className="text-primary text-sm font-semibold mb-4 tracking-widest">ABOUT {siteConfig.name}</p>
-            <h2 className="text-5xl font-serif font-bold text-foreground mb-6">
+          {/* Left: Text + Button */}
+          <div className="space-y-6">
+            <p className="text-primary text-sm font-semibold tracking-widest">
+              ABOUT {siteConfig.name}
+            </p>
+            <h2 className="text-4xl md:text-5xl font-serif font-bold text-foreground">
               A Journey of Taste
             </h2>
-            
-            <p className="text-muted-foreground mb-6 leading-relaxed text-lg">
-              {siteConfig.restaurant.name} is Nairobi&apos;s premier fine dining destination. We believe that exceptional food is an art form, crafted with passion, precision, and the finest ingredients.
+            <p className="text-muted-foreground text-lg leading-relaxed">
+              {siteConfig.restaurant.name} is Nairobi&apos;s premier fine dining
+              destination. Experience exceptional food crafted with passion and
+              the finest ingredients.
             </p>
-
-            <p className="text-muted-foreground mb-8 leading-relaxed text-lg">
-              Our chef-led team brings international expertise combined with a celebration of East African flavors. Every dish tells a story, every meal creates a memory.
-            </p>
-
-            {/* Stats */}
-            <div className="grid grid-cols-3 gap-8 py-8 border-t border-b border-border">
-              <div>
-                <p className="text-3xl font-bold text-primary mb-2">10+</p>
-                <p className="text-sm text-muted-foreground">Years Excellence</p>
-              </div>
-              <div>
-                <p className="text-3xl font-bold text-primary mb-2">5k+</p>
-                <p className="text-sm text-muted-foreground">Happy Guests</p>
-              </div>
-              <div>
-                <p className="text-3xl font-bold text-primary mb-2">40+</p>
-                <p className="text-sm text-muted-foreground">Signature Dishes</p>
-              </div>
-            </div>
+            <Button
+              nativeButton={false}
+              render={<Link href="/about" />}
+              size="lg"
+            >
+              About Us
+            </Button>
           </div>
 
-          {/* Right Content */}
-          <div className="space-y-6">
-            <div className="p-8 bg-background rounded-lg border border-border hover:border-primary transition">
-              <h3 className="text-xl font-bold text-primary mb-3">🍽️ Premium Ingredients</h3>
-              <p className="text-muted-foreground">
-                We source only the finest, freshest ingredients from trusted suppliers across Kenya and the world.
-              </p>
-            </div>
-
-            <div className="p-8 bg-background rounded-lg border border-border hover:border-primary transition">
-              <h3 className="text-xl font-bold text-primary mb-3">👨‍🍳 Expert Chefs</h3>
-              <p className="text-muted-foreground">
-                Our culinary team brings decades of combined experience and international training to every plate.
-              </p>
-            </div>
-
-            <div className="p-8 bg-background rounded-lg border border-border hover:border-primary transition">
-              <h3 className="text-xl font-bold text-primary mb-3">✨ Unforgettable Experience</h3>
-              <p className="text-muted-foreground">
-                From ambiance to service, every detail is designed to create a memorable dining experience.
-              </p>
-            </div>
+          {/* Right: Image */}
+          <div className="relative w-full h-80 md:h-100px rounded-lg overflow-hidden">
+            <Image
+              src={
+                "https://res.cloudinary.com/quick-prime-tech/image/upload/v1774897007/caption_xlgtua.jpg"
+              }
+              alt="About us image"
+              fill
+              className="object-cover"
+            />
           </div>
         </div>
       </div>

@@ -19,7 +19,14 @@ export const siteConfig = {
     instagram: {
       handle: "@crave_kenya",
       url: "https://www.instagram.com/crave_kenya/",
-      followers: "12K+",
+    },
+    facebook: {
+      handle: "@cravechocolateriver",
+      url: "https://www.facebook.com/cravechocolateriver/",
+    },
+    tiktok: {
+      handle: "@crave_kenya",
+      url: "https://www.tiktok.com/@crave_kenya",
     },
     google:
       "https://google.com/maps?sca_esv=a02f3e9b87f4a5a7&output=search&q=crave+kenya",

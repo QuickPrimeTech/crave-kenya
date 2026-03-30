@@ -1,11 +1,27 @@
-'use client';
+"use client";
 
-import { Card } from '@/components/ui/card';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
-import { Star, ChevronLeft, ChevronRight, CheckCircle } from 'lucide-react';
-import { useState, useEffect } from 'react';
-import useEmblaCarousel from 'embla-carousel-react';
-import { siteConfig } from '@/lib/config';
+import { Card } from "@/components/ui/card";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog";
+import {
+  Star,
+  ChevronLeft,
+  ChevronRight,
+  CheckCircle,
+  ExternalLink,
+} from "lucide-react";
+import { useState, useEffect } from "react";
+import useEmblaCarousel from "embla-carousel-react";
+import { siteConfig } from "@/lib/config";
+import { Button } from "@ui/button";
+import { FcGoogle } from "react-icons/fc";
+import Link from "next/link";
+import { ScrollArea, ScrollBar } from "../ui/scroll-area";
 
 function RatingStars({ rating }: { rating: number }) {
   return (
@@ -14,7 +30,11 @@ function RatingStars({ rating }: { rating: number }) {
         <Star
           key={i}
           size={18}
-          className={i < rating ? 'fill-primary text-primary' : 'text-muted-foreground'}
+          className={
+            i < rating
+              ? "fill-yellow-500 text-yellow-500"
+              : "text-muted-foreground"
+          }
         />
       ))}
     </div>
@@ -32,68 +52,77 @@ function ReviewDialog({
 }) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-2xl bg-card border-border">
+      <DialogContent className="max-w-2xl px-0 bg-card border-border">
         <DialogHeader>
-          <DialogTitle className="sr-only">Guest Review from {testimonial.name}</DialogTitle>
-          <DialogDescription className="sr-only">Full review and details from {testimonial.name}</DialogDescription>
+          <DialogTitle className="sr-only">
+            Guest Review from {testimonial.name}
+          </DialogTitle>
+          <DialogDescription className="sr-only">
+            Full review and details from {testimonial.name}
+          </DialogDescription>
           <div className="flex items-start justify-between mb-6">
             <div className="flex items-center gap-4">
-              <div className="w-16 h-16 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center text-3xl">
+              <div className="w-16 h-16 rounded-full bg-linear-to-br from-primary to-accent flex items-center justify-center text-3xl">
                 {testimonial.image}
               </div>
-              <div>
-                <div className="flex items-center gap-2 mb-1">
-                  <h3 className="text-lg font-bold text-foreground">{testimonial.name}</h3>
-                  {testimonial.verified && (
-                    <CheckCircle size={18} className="text-primary fill-primary" />
-                  )}
+              <div className="space-y-2">
+                <h3 className="text-lg font-bold text-foreground">
+                  {testimonial.name}
+                </h3>
+                <div className="flex gap-1.5 items-center">
+                  <p className="text-xs text-muted-foreground mt-1">
+                    {testimonial.date}
+                  </p>
+                  <RatingStars rating={testimonial.rating} />
                 </div>
-                <p className="text-sm text-primary font-medium">{testimonial.title}</p>
-                <p className="text-xs text-muted-foreground mt-1">{testimonial.date}</p>
               </div>
             </div>
           </div>
         </DialogHeader>
-
-        <div className="space-y-4">
-          <RatingStars rating={testimonial.rating} />
-
-          <p className="text-foreground leading-relaxed text-base">
-            {testimonial.fullReview}
-          </p>
-
-          <div className="bg-secondary/50 border border-border rounded-lg p-4 mt-6">
-            <p className="text-xs text-muted-foreground uppercase tracking-wider font-semibold mb-2">
-              About {testimonial.name}
+        <ScrollArea className={"h-80 px-4"}>
+          <div className="space-y-4">
+            <p className="text-foreground leading-relaxed text-base">
+              {testimonial.fullReview}
             </p>
-            <p className="text-sm text-foreground">
-              {testimonial.title} - Verified Guest at {siteConfig.restaurant.name}
-            </p>
+
+            <div className="bg-secondary/50 border border-border rounded-lg p-4 mt-6">
+              <p className="text-xs text-muted-foreground uppercase tracking-wider font-semibold mb-2">
+                About {testimonial.name}
+              </p>
+              <p className="text-sm text-foreground">
+                {testimonial.title} - Verified Guest at{" "}
+                {siteConfig.restaurant.name}
+              </p>
+            </div>
           </div>
-        </div>
+          <ScrollBar orientation="vertical" />
+        </ScrollArea>
       </DialogContent>
     </Dialog>
   );
 }
 
 export function Testimonials() {
-  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: false, align: 'start' });
+  const [emblaRef, emblaApi] = useEmblaCarousel({
+    loop: false,
+    align: "start",
+  });
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [openDialog, setOpenDialog] = useState(false);
   const [selectedTestimonial, setSelectedTestimonial] = useState(
-    siteConfig.testimonials[0]
+    siteConfig.testimonials[0],
   );
 
   useEffect(() => {
     if (!emblaApi) return;
-    emblaApi.on('select', () => {
-      setSelectedIndex(emblaApi.selectedIndex);
+    emblaApi.on("select", () => {
+      setSelectedIndex(emblaApi.selectedScrollSnap());
     });
   }, [emblaApi]);
 
-  const scroll = (direction: 'left' | 'right') => {
+  const scroll = (direction: "left" | "right") => {
     if (emblaApi) {
-      direction === 'left' ? emblaApi.scrollPrev() : emblaApi.scrollNext();
+      direction === "left" ? emblaApi.scrollPrev() : emblaApi.scrollNext();
     }
   };
 
@@ -107,13 +136,16 @@ export function Testimonials() {
       <section id="testimonials" className="py-20 bg-background">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Section Header */}
-          <div className="text-center mb-16">
-            <p className="text-primary text-sm font-semibold mb-4 tracking-widest">WHAT GUESTS SAY</p>
+          <div className="text-center mb-12">
+            <p className="text-primary text-sm font-semibold mb-4 tracking-widest">
+              WHAT GUESTS SAY
+            </p>
             <h2 className="text-5xl font-serif font-bold text-foreground mb-4">
               Guest Testimonials
             </h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">
-              Hear from our valued guests about their exceptional experiences at {siteConfig.restaurant.name}
+              Hear from our valued guests about their exceptional experiences at{" "}
+              {siteConfig.restaurant.name}
             </p>
           </div>
 
@@ -129,7 +161,7 @@ export function Testimonials() {
                     <Card className="p-8 border border-border hover:border-primary/50 hover:shadow-xl transition-all h-full flex flex-col bg-secondary/30 backdrop-blur-sm">
                       <RatingStars rating={testimonial.rating} />
 
-                      <p className="text-foreground text-base leading-relaxed my-6 flex-grow">
+                      <p className="text-foreground text-base leading-relaxed my-6 grow">
                         &quot;{testimonial.content}&quot;
                       </p>
 
@@ -140,14 +172,17 @@ export function Testimonials() {
                               {testimonial.name}
                             </p>
                             {testimonial.verified && (
-                              <CheckCircle size={14} className="text-primary fill-primary" />
+                              <CheckCircle
+                                size={14}
+                                className="text-primary fill-primary"
+                              />
                             )}
                           </div>
                           <p className="text-xs text-primary">
                             {testimonial.title}
                           </p>
                         </div>
-                        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center text-lg">
+                        <div className="w-10 h-10 rounded-full bg-linear-to-br from-primary to-accent flex items-center justify-center text-lg">
                           {testimonial.image}
                         </div>
                       </div>
@@ -167,40 +202,73 @@ export function Testimonials() {
             {/* Navigation Buttons */}
             {siteConfig.testimonials.length > 3 && (
               <div className="flex items-center justify-between mt-8">
-                <button
-                  onClick={() => scroll('left')}
+                <Button
+                  variant={"outline"}
+                  size={"icon-lg"}
+                  onClick={() => scroll("left")}
                   disabled={selectedIndex === 0}
-                  className="p-2 bg-secondary border border-border text-secondary-foreground hover:bg-accent disabled:opacity-50 disabled:cursor-not-allowed transition-colors rounded-lg"
                   aria-label="Previous testimonial"
                 >
                   <ChevronLeft size={20} />
-                </button>
+                </Button>
 
                 <div className="flex gap-2">
                   {siteConfig.testimonials.map((_, index) => (
-                    <button
+                    <Button
                       key={index}
+                      variant={index === selectedIndex ? "default" : "outline"}
                       onClick={() => emblaApi?.scrollTo(index)}
-                      className={`rounded-full transition-all duration-300 ${
-                        index === selectedIndex
-                          ? 'w-5 h-1.5 bg-primary'
-                          : 'w-1.5 h-1.5 bg-muted-foreground/30 hover:bg-muted-foreground/50'
-                      }`}
+                      className={`size-1.5 rounded-full transition-all duration-300`}
                       aria-label={`Go to testimonial ${index + 1}`}
                     />
                   ))}
                 </div>
 
-                <button
-                  onClick={() => scroll('right')}
+                <Button
+                  size={"icon-lg"}
+                  variant={"outline"}
+                  onClick={() => scroll("right")}
                   disabled={selectedIndex >= siteConfig.testimonials.length - 1}
-                  className="p-2 bg-secondary border border-border text-secondary-foreground hover:bg-accent disabled:opacity-50 disabled:cursor-not-allowed transition-colors rounded-lg"
                   aria-label="Next testimonial"
                 >
                   <ChevronRight size={20} />
-                </button>
+                </Button>
               </div>
             )}
+          </div>
+
+          <div className="flex gap-4 justify-center mt-12">
+            <Button
+              nativeButton={false}
+              render={
+                <Link
+                  href={
+                    "https://search.google.com/local/writereview?placeid=ChIJ92Oj0mcRLxgRbeluM4tU1UY"
+                  }
+                  target="blank"
+                  rel="noopener noreferrer"
+                />
+              }
+            >
+              <FcGoogle />
+              Review Us <ExternalLink />
+            </Button>
+            <Button
+              variant={"outline"}
+              nativeButton={false}
+              render={
+                <Link
+                  href={
+                    "https://www.google.com/maps/place/CRAVE+KENYA+-+KILIMANI/@-1.2935272,32.1729832,7z/data=!4m12!1m2!2m1!1scrave+kenya+interior!3m8!1s0x182f1167d2a363f7:0x46d5548b336ee96d!8m2!3d-1.2935272!4d36.787241!9m1!1b1!15sChRjcmF2ZSBrZW55YSBpbnRlcmlvcloWIhRjcmF2ZSBrZW55YSBpbnRlcmlvcpIBCnJlc3RhdXJhbnSaASRDaGREU1VoTk1HOW5TMFZKUTBGblRVTkpjVGRIZFdsM1JSQULgAQD6AQQIABBA!16s%2Fg%2F11vk4jzg9s?entry=ttu&g_ep=EgoyMDI2MDMyNC4wIKXMDSoASAFQAw%3D%3D"
+                  }
+                  target="_blank"
+                  rel="noopener noreferrer"
+                />
+              }
+            >
+              <FcGoogle />
+              Read all reviews
+            </Button>
           </div>
         </div>
       </section>

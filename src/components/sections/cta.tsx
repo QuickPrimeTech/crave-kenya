@@ -1,54 +1,51 @@
-'use client';
+"use client";
 
-import { Button } from '@/components/ui/button';
-import { ArrowRight } from 'lucide-react';
-import { siteConfig } from '@/lib/config';
+import { Button } from "@/components/ui/button";
+import { ArrowRight, Clock, MapPin, Phone } from "lucide-react";
+import { siteConfig } from "@/lib/config";
+import Link from "next/link";
 
 export function CTA() {
   return (
-    <section className="py-20 bg-secondary">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center space-y-8">
-          <div>
-            <p className="text-primary text-sm font-semibold mb-4 tracking-widest">READY TO JOIN US?</p>
-            <h2 className="text-5xl md:text-6xl font-serif font-bold text-foreground mb-6">
-              {siteConfig.cta.primary} Today
+    <section className="py-10 bg-muted/30 border-y border-border">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+          <div className="text-center md:text-left">
+            <h2 className="text-xl font-serif font-semibold text-foreground mb-1">
+              Ready to dine with us?
             </h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-8">
-              Don&apos;t miss out on an exceptional dining experience. Book your {siteConfig.cta.primary.toLowerCase()} now and let us create magic on your palate.
-            </p>
+            <div className="flex items-center justify-center md:justify-start gap-4 text-xs text-muted-foreground">
+              <span className="flex items-center gap-1">
+                <Clock className="w-3 h-3" />
+                {siteConfig.restaurant.hours.weekday}
+              </span>
+              <span className="flex items-center gap-1">
+                <MapPin className="w-3 h-3" />
+                {siteConfig.restaurant.location}
+              </span>
+            </div>
           </div>
 
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <Button 
-              className="bg-primary hover:bg-primary/90 text-primary-foreground px-10 py-6 text-lg h-auto"
+          <div className="flex items-center gap-3">
+            <Button
+              size="sm"
+              className="rounded-full px-6 h-9"
+              nativeButton={false}
+              render={<Link href={"/reservations"} />}
             >
-              Book Now <ArrowRight className="ml-2" size={20} />
+              Book Now
+              <ArrowRight />
             </Button>
-            
-            <div className="text-center">
-              <p className="text-sm text-muted-foreground mb-1">Call Us</p>
-              <p className="text-lg font-semibold text-primary">{siteConfig.restaurant.phone}</p>
-            </div>
-          </div>
-
-          {/* Hours & Info */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 mt-12 pt-12 border-t border-border">
-            <div>
-              <p className="text-sm text-muted-foreground mb-2">Opening Hours</p>
-              <p className="font-semibold text-foreground">Mon - Sun</p>
-              <p className="text-primary">{siteConfig.restaurant.hours.weekday}</p>
-            </div>
-            <div>
-              <p className="text-sm text-muted-foreground mb-2">Location</p>
-              <p className="font-semibold text-foreground">{siteConfig.restaurant.location}</p>
-              <p className="text-primary">Nairobi, Kenya</p>
-            </div>
-            <div>
-              <p className="text-sm text-muted-foreground mb-2">Email</p>
-              <p className="font-semibold text-foreground">For Reservations</p>
-              <p className="text-primary">{siteConfig.restaurant.email}</p>
-            </div>
+            <Button
+              variant="outline"
+              size="sm"
+              className="rounded-full px-4 h-9 gap-2"
+              nativeButton={false}
+              render={<Link href={`tel:${siteConfig.restaurant.phone}`} />}
+            >
+              <Phone />
+              Call
+            </Button>
           </div>
         </div>
       </div>
