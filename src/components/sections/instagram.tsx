@@ -1,7 +1,12 @@
 "use client";
 import * as React from "react";
 import Script from "next/script";
-import { ChevronLeft, ChevronRight, ExternalLink } from "lucide-react";
+import {
+  ChevronLeft,
+  ChevronRight,
+  ExternalLink,
+  InstagramIcon,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 import {
   Carousel,
@@ -10,6 +15,8 @@ import {
   type CarouselApi,
 } from "@/components/ui/carousel";
 import { Button } from "@ui/button";
+import Link from "next/link";
+import { siteConfig } from "@/lib/config";
 
 declare global {
   interface Window {
@@ -113,7 +120,7 @@ export function Instagram() {
       <div className="max-w-7xl mx-auto px-4">
         {/* Header */}
         <div className="text-center mb-16 space-y-3">
-          <h2 className="text-4xl md:text-5xl font-serif font-bold text-foreground">
+          <h2 className="text-4xl font-serif font-bold text-foreground">
             Follow Our Journey
           </h2>
           <p className="text-muted-foreground text-lg">
@@ -209,6 +216,21 @@ export function Instagram() {
             onClick={() => api?.scrollNext()}
           >
             <ChevronRight className="w-5 h-5" />
+          </Button>
+        </div>
+        <div className="flex justify-center mt-8">
+          <Button
+            size={"xl"}
+            nativeButton={false}
+            render={
+              <Link
+                rel="noopener noreferrer"
+                target="_blank"
+                href={siteConfig.social.instagram.url}
+              />
+            }
+          >
+            <InstagramIcon /> Follow us on Instagram
           </Button>
         </div>
       </div>

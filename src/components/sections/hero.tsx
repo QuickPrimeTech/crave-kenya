@@ -1,9 +1,10 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import Image from "next/image";
+import { Image } from "@ui/image";
 import { siteConfig } from "@/lib/config";
 import { useEffect, useState } from "react";
+import Link from "next/link";
 
 const slides = [
   {
@@ -50,7 +51,7 @@ export function Hero() {
   const slide = slides[current];
 
   return (
-    <section className="relative pt-20 pb-8 flex items-center overflow-hidden">
+    <section className="relative pt-20 pb-16 flex items-center overflow-hidden">
       {/* Crossfading background images */}
       {slides.map((s, i) => (
         <div
@@ -103,10 +104,21 @@ export function Hero() {
 
           {/* Buttons */}
           <div className="flex flex-wrap gap-3">
-            <Button size={"xl"} className={"flex-1"}>
+            <Button
+              size={"xl"}
+              className={"flex-1"}
+              nativeButton={false}
+              render={<Link href="/reservation" />}
+            >
               Make a Reservation
             </Button>
-            <Button size={"xl"} variant="outline" className={"flex-1"}>
+            <Button
+              size={"xl"}
+              variant="outline"
+              className={"flex-1"}
+              nativeButton={false}
+              render={<Link href="/menu" />}
+            >
               View Menu
             </Button>
           </div>

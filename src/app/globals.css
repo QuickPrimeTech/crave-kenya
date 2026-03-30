@@ -119,6 +119,7 @@
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
   --animate-shimmer: shimmer 2s infinite;
+  --animate-marquee: marquee 25s linear infinite;
 }
 
 @layer base {
@@ -132,12 +133,21 @@
     @apply font-sans;
   }
 
-@keyframes shimmer {
-  from {
-    transform: translateX(-100%);
+  @keyframes shimmer {
+    from {
+      transform: translateX(-100%);
     }
-  to {
-    transform: translateX(100%);
+    to {
+      transform: translateX(100%);
+    }
+  }
+
+  @keyframes marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
     }
   }
 }

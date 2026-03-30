@@ -54,7 +54,7 @@ export function PopularDishes({ menuItems }: { menuItems: MenuItem[] }) {
           <p className="text-primary text-sm font-semibold mb-4 tracking-widest">
             OUR SPECIALTIES
           </p>
-          <h2 className="text-5xl font-serif font-bold text-foreground mb-4">
+          <h2 className="text-4xl font-serif font-bold text-foreground mb-4">
             Popular Dishes
           </h2>
           <p className="text-muted-foreground max-w-2xl mx-auto">

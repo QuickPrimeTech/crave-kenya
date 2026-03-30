@@ -140,7 +140,7 @@ export function Testimonials() {
             <p className="text-primary text-sm font-semibold mb-4 tracking-widest">
               WHAT GUESTS SAY
             </p>
-            <h2 className="text-5xl font-serif font-bold text-foreground mb-4">
+            <h2 className="text-4xl font-serif font-bold text-foreground mb-4">
               Guest Testimonials
             </h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">
