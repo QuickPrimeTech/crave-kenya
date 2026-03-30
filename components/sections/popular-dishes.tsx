@@ -1,8 +1,8 @@
 'use client';
 
-import { useState } from 'react';
 import Image from 'next/image';
-import { Button } from '@/components/ui/button';
+import { useEffect, useState } from 'react';
+import useEmblaCarousel from 'embla-carousel-react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 const dishes = [
@@ -44,23 +44,29 @@ const dishes = [
 ];
 
 export function PopularDishes() {
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true });
+  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [canScrollPrev, setCanScrollPrev] = useState(false);
+  const [canScrollNext, setCanScrollNext] = useState(false);
 
-  const next = () => {
-    setCurrentIndex((prev) => (prev + 1) % dishes.length);
-  };
+  useEffect(() => {
+    if (!emblaApi) return;
 
-  const prev = () => {
-    setCurrentIndex((prev) => (prev - 1 + dishes.length) % dishes.length);
-  };
+    const onSelect = () => {
+      setSelectedIndex(emblaApi.selectedIndex);
+      setCanScrollPrev(emblaApi.canScrollPrev());
+      setCanScrollNext(emblaApi.canScrollNext());
+    };
 
-  const getVisibleDishes = () => {
-    const visible = 3;
-    const items = [];
-    for (let i = 0; i < visible; i++) {
-      items.push(dishes[(currentIndex + i) % dishes.length]);
+    emblaApi.on('select', onSelect);
+    emblaApi.on('reInit', onSelect);
+    onSelect();
+  }, [emblaApi]);
+
+  const scroll = (direction: 'left' | 'right') => {
+    if (emblaApi) {
+      direction === 'left' ? emblaApi.scrollPrev() : emblaApi.scrollNext();
     }
-    return items;
   };
 
   return (
@@ -78,14 +84,14 @@ export function PopularDishes() {
         </div>
 
         {/* Carousel */}
-        <div className="relative">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
-            {getVisibleDishes().map((dish) => (
+        <div className="overflow-hidden mb-8" ref={emblaRef}>
+          <div className="flex gap-4 sm:gap-6">
+            {dishes.map((dish) => (
               <div
                 key={dish.id}
-                className="group cursor-pointer"
+                className="flex-[0_0_100%] sm:flex-[0_0_calc(50%-0.75rem)] lg:flex-[0_0_calc(33.333%-1rem)] group cursor-pointer"
               >
-                <div className="relative h-80 mb-6 rounded-lg overflow-hidden bg-background">
+                <div className="relative h-48 sm:h-64 lg:h-80 mb-6 rounded-lg overflow-hidden bg-background">
                   <Image
                     src={dish.image}
                     alt={dish.name}
@@ -93,11 +99,11 @@ export function PopularDishes() {
                     className="object-cover group-hover:scale-105 transition-transform duration-300"
                   />
                 </div>
-                <div className="text-center">
-                  <h3 className="text-2xl font-serif font-bold text-foreground mb-2">
+                <div className="text-center px-2">
+                  <h3 className="text-xl sm:text-2xl font-serif font-bold text-foreground mb-2">
                     {dish.name}
                   </h3>
-                  <p className="text-muted-foreground mb-4">
+                  <p className="text-sm sm:text-base text-muted-foreground mb-4 line-clamp-2">
                     {dish.description}
                   </p>
                   <p className="text-primary text-lg font-semibold">
@@ -107,40 +113,42 @@ export function PopularDishes() {
               </div>
             ))}
           </div>
+        </div>
 
-          {/* Controls */}
-          <div className="flex justify-center gap-4">
-            <button
-              onClick={prev}
-              className="p-3 rounded-full bg-background hover:bg-primary hover:text-primary-foreground transition"
-              aria-label="Previous dishes"
-            >
-              <ChevronLeft size={24} />
-            </button>
-            <button
-              onClick={next}
-              className="p-3 rounded-full bg-background hover:bg-primary hover:text-primary-foreground transition"
-              aria-label="Next dishes"
-            >
-              <ChevronRight size={24} />
-            </button>
-          </div>
+        {/* Controls */}
+        <div className="flex justify-center items-center gap-4">
+          <button
+            onClick={() => scroll('left')}
+            disabled={!canScrollPrev}
+            className="p-2 sm:p-3 rounded-full bg-background border border-border hover:bg-primary hover:text-primary-foreground disabled:opacity-50 disabled:cursor-not-allowed transition"
+            aria-label="Previous dishes"
+          >
+            <ChevronLeft size={20} className="sm:w-6 sm:h-6" />
+          </button>
 
-          {/* Indicators */}
-          <div className="flex justify-center gap-2 mt-8">
+          <div className="flex gap-2">
             {dishes.map((_, idx) => (
               <button
                 key={idx}
-                onClick={() => setCurrentIndex(idx)}
+                onClick={() => emblaApi?.scrollTo(idx)}
                 className={`h-2 rounded-full transition ${
-                  idx === currentIndex
-                    ? 'bg-primary w-8'
+                  idx === selectedIndex
+                    ? 'bg-primary w-6 sm:w-8'
                     : 'bg-muted w-2'
                 }`}
                 aria-label={`Go to dish ${idx + 1}`}
               />
             ))}
           </div>
+
+          <button
+            onClick={() => scroll('right')}
+            disabled={!canScrollNext}
+            className="p-2 sm:p-3 rounded-full bg-background border border-border hover:bg-primary hover:text-primary-foreground disabled:opacity-50 disabled:cursor-not-allowed transition"
+            aria-label="Next dishes"
+          >
+            <ChevronRight size={20} className="sm:w-6 sm:h-6" />
+          </button>
         </div>
       </div>
     </section>
