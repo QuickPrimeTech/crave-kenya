@@ -31,13 +31,19 @@ export function Header() {
 
           <nav className="hidden md:flex items-center gap-8">
             {siteConfig.navigation.map((item) => (
-              <Link
+              <Button
+                variant={"ghost"}
                 key={item.label}
-                href={item.href}
-                className="text-sm text-foreground hover:text-primary transition"
+                nativeButton={false}
+                render={
+                  <Link
+                    href={item.href}
+                    className="text-sm text-foreground hover:text-primary transition"
+                  />
+                }
               >
                 {item.label}
-              </Link>
+              </Button>
             ))}
           </nav>
 
@@ -64,14 +70,15 @@ export function Header() {
             </Button>
 
             <Sheet>
-              <SheetTrigger asChild className="md:hidden">
-                <Button variant="ghost" size="icon">
-                  <Menu className="text-foreground" size={20} />
-                </Button>
+              <SheetTrigger
+                className="md:hidden"
+                render={<Button variant="ghost" size="icon" />}
+              >
+                <Menu className="text-foreground" size={20} />
               </SheetTrigger>
               <SheetContent
                 side="right"
-                className="w-72 bg-card border-border p-6"
+                className="w-3/4 bg-card border-border p-6"
               >
                 <div className="flex flex-col gap-6">
                   <div>
@@ -83,7 +90,7 @@ export function Header() {
                         <Link
                           key={item.label}
                           href={item.href}
-                          className="text-sm text-foreground hover:text-primary transition py-2 border-b border-border/30"
+                          className="text-sm text-foreground hover:text-primary transition py-2 border-b"
                         >
                           {item.label}
                         </Link>
@@ -91,9 +98,7 @@ export function Header() {
                     </nav>
                   </div>
 
-                  <Button className="bg-primary hover:bg-primary/90 text-primary-foreground w-full">
-                    {siteConfig.cta.primary}
-                  </Button>
+                  <Button className="w-full">{siteConfig.cta.primary}</Button>
 
                   <div className="pt-4 border-t border-border">
                     <p className="text-xs text-muted-foreground mb-3">
