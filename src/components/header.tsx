@@ -29,7 +29,7 @@ export function Header() {
             </span>
           </div>
 
-          <nav className="hidden md:flex items-center gap-8">
+          <nav className="hidden md:flex items-center gap-4">
             {siteConfig.navigation.map((item) => (
               <Button
                 variant={"ghost"}
@@ -38,7 +38,7 @@ export function Header() {
                 render={
                   <Link
                     href={item.href}
-                    className="text-sm text-foreground hover:text-primary transition"
+                    className="capitalize text-sm text-foreground hover:text-primary transition"
                   />
                 }
               >

@@ -11,7 +11,7 @@ export const siteConfig = {
       weekday: "12:00 PM - 11:00 PM",
       weekend: "12:00 PM - 12:00 AM",
     },
-    phone: "+254 (0) 123 456 789",
+    phone: "+254 756 600 600",
     email: "reservations@cravekenya.com",
   },
 
