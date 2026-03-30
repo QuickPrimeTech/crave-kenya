@@ -103,7 +103,7 @@ export function Instagram() {
   }, [api]);
 
   return (
-    <section className="py-24 bg-background">
+    <section className="py-24 border-t">
       <Script
         src="https://www.instagram.com/embed.js"
         strategy="lazyOnload"
