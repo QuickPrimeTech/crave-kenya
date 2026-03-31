@@ -52,17 +52,17 @@ function ReviewDialog({
 }) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-2xl px-0 bg-card border-border">
-        <DialogHeader>
+      <DialogContent className="max-w-2xl px-0 bg-card border-border gap-0">
+        <DialogHeader className="border-b rounded-b-xl">
           <DialogTitle className="sr-only">
             Guest Review from {testimonial.name}
           </DialogTitle>
           <DialogDescription className="sr-only">
             Full review and details from {testimonial.name}
           </DialogDescription>
-          <div className="flex items-start justify-between mb-6">
+          <div className="flex items-start justify-between mb-6 px-6">
             <div className="flex items-center gap-4">
-              <div className="w-16 h-16 rounded-full bg-linear-to-br from-primary to-accent flex items-center justify-center text-3xl">
+              <div className="size-12 rounded-full bg-linear-to-br from-primary to-accent flex items-center justify-center text-2xl">
                 {testimonial.image}
               </div>
               <div className="space-y-2">
@@ -79,8 +79,8 @@ function ReviewDialog({
             </div>
           </div>
         </DialogHeader>
-        <ScrollArea className={"h-80 px-4"}>
-          <div className="space-y-4">
+        <ScrollArea className={"h-80 px-6"}>
+          <div className="space-y-4 mt-6">
             <p className="text-foreground leading-relaxed text-base">
               {testimonial.fullReview}
             </p>
@@ -172,10 +172,7 @@ export function Testimonials() {
                               {testimonial.name}
                             </p>
                             {testimonial.verified && (
-                              <CheckCircle
-                                size={14}
-                                className="text-primary fill-primary"
-                              />
+                              <CheckCircle size={14} className="text-primary" />
                             )}
                           </div>
                           <p className="text-xs text-primary">
