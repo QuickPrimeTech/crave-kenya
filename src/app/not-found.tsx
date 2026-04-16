@@ -258,7 +258,7 @@ export default function NotFound() {
                           🎭
                         </div>
                         <span className="text-[10px] text-white/70">
-                          @yourhandle
+                          @quickprimetech
                         </span>
                         <span className="ml-auto text-[10px] text-white/50">
                           ❤️ {card.likes}
@@ -315,7 +315,7 @@ export default function NotFound() {
         <div className="mt-12 flex flex-wrap items-center justify-center gap-3">
           {/* Primary CTA — uses shadcn primary token */}
           <a
-            href="https://www.tiktok.com/@yourhandle"
+            href="https://www.tiktok.com/@quickprimetech"
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-2.5 rounded-full bg-primary px-7 py-3.5 text-sm font-bold text-primary-foreground shadow-[0_8px_32px_hsl(var(--primary)/0.35)] transition hover:-translate-y-0.5 hover:opacity-90 hover:shadow-[0_14px_40px_hsl(var(--primary)/0.5)] active:translate-y-0"
